@@ -3,7 +3,7 @@ import json
 
 # Vakioarvot
 HOST = "https://script.google.com"
-SCRIPT_ID = "AKfycbwzZCJKv3pyLBs3dSVUgYUYwQPKIS5atRKHsvxcFNSNJTDVg51MisQtZW0EGYmvTfzp6g"  # Korvaa omalla Google Script ID:lläsi
+SCRIPT_ID = "AKfycbwnmiItP_1NRe0ER6dogBr29-qXEC97CUkgAK6nly3gn8IjlFxAE9FwUxA2ss0JaruFjA"  # Korvaa omalla Google Script ID:lläsi
 URL = f"{HOST}/macros/s/{SCRIPT_ID}/exec"
 
 def send_data(device_name, *values):
