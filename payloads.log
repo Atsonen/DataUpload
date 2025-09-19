@@ -1,0 +1,6 @@
+2025-09-19 19:43:17	INFO	EventLogger_MQTT_Client | EventLogger/Event | {0,3,404,41,0,3,0,0,0,0}
+2025-09-19 19:43:17	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-19 19:43:17	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '0}' kentässä segment[9], käytetään 0
+2025-09-19 19:43:17	INFO	publishEvent | {'sheet_name': 'Event', 'values': '0,3,404,41,0,3,0'}
+2025-09-19 19:43:32	INFO	publishEvent | Success: {"ok":true}
+2025-09-19 19:43:32	INFO	EventLogger_MQTT_Client | Event | Forwarded values: [0, 3, 404, 41, 0, 3, 0]

@@ -6,7 +6,7 @@ from payload_logger import log_payload
 
 HOST = "https://script.google.com"
 # Valitse tähän se oikea oman Apps Script -julkaisusi ID:
-SCRIPT_ID = "AKfycbwzZCJKv3pyLBs3dSVUgYUYwQPKIS5atRKHsvxcFNSNJTDVg51MisQtZW0EGYmvTfzp6g"
+SCRIPT_ID = "AKfycbyjEthTZuGTR_fUB1KQ1X0mZiE_RSh5m5pn-CAE6IcsrORtlzJBDqEPte2JEDkV7-c_"
 URL = f"{HOST}/macros/s/{SCRIPT_ID}/exec"
 
 def send_data(sheet_name: str,
