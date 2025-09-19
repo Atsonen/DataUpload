@@ -1,4 +1,6 @@
 import json
+from typing import Any, Dict, List, Union
+
 import paho.mqtt.client as mqtt
 import publishEvent
 
@@ -7,7 +9,10 @@ MQTT_PORT = 1883
 MQTT_TOPIC = "EventLogger/#"
 
 
-def parse_event_payload(payload: str) -> dict:
+ParsedEvent = Union[Dict[str, Any], List[str], str]
+
+
+def parse_event_payload(payload: str) -> ParsedEvent:
     """Parse incoming payload for event logging."""
     payload = payload.strip()
     if not payload:
@@ -27,13 +32,13 @@ def parse_event_payload(payload: str) -> dict:
 
     # Fallback: try key-value pairs separated by ';' or ','
     separators = [';', ',']
-    segments = [payload]
+    segments: List[str] = [payload]
     for separator in separators:
         if separator in payload:
             segments = [segment.strip() for segment in payload.split(separator) if segment.strip()]
             break
 
-    event_data = {}
+    event_data: Dict[str, Any] = {}
     for segment in segments:
         if '=' in segment:
             key, value = segment.split('=', 1)
@@ -42,7 +47,10 @@ def parse_event_payload(payload: str) -> dict:
     if event_data:
         return event_data
 
-    return {payload}
+    if len(segments) > 1:
+        return segments
+
+    return payload
 
 
 # MQTT callbacks
@@ -77,10 +85,24 @@ def on_message(client, userdata, msg):
             event_identifier = None
 
         event_data = parse_event_payload(payload)
-        if event_identifier and "event" not in event_data:
-            event_data["event"] = event_identifier
 
-        publishEvent.send_data(device_name, event_data)
+        if isinstance(event_data, dict):
+            if event_identifier and "event" not in event_data:
+                event_data["event"] = event_identifier
+            publishEvent.send_data(device_name, event_data)
+            return
+
+        if isinstance(event_data, (list, tuple)):
+            values: List[str] = [str(value) for value in event_data]
+        elif event_data is None:
+            values = []
+        else:
+            values = [str(event_data)]
+
+        if event_identifier:
+            values.insert(0, event_identifier)
+
+        publishEvent.send_data(device_name, *values)
     except Exception as exc:
         print(f"Error handling event message: {exc}")
 
