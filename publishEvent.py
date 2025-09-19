@@ -1,57 +1,39 @@
 import json
 import requests
-from typing import Any, Dict, Optional
+from typing import Any
 
 HOST = "https://script.google.com"
 # Valitse tähän se oikea oman Apps Script -julkaisusi ID:
 SCRIPT_ID = "AKfycbwzZCJKv3pyLBs3dSVUgYUYwQPKIS5atRKHsvxcFNSNJTDVg51MisQtZW0EGYmvTfzp6g"
 URL = f"{HOST}/macros/s/{SCRIPT_ID}/exec"
 
-def send_data(device_name: str,
-              data: Optional[Any] = None,
+def send_data(sheet_name: str,
               *values: Any,
-              sheet_name: str = "EventLogger",
               timeout: int = 30) -> None:
-    """
-    Lähettää tapahtuman Google Apps Scriptille.
+    """Lähettää tapahtuman Google Apps Scriptille.
 
-    Käyttö:
-      1) Dict-eventti:
-         send_data("MyDevice", {"type": "ALARM", "code": 123, "msg": "Overheat"})
-      2) Raaka-arvo:
-         send_data("MyDevice", "some raw text")
-      3) Numerolista/CSV:
-         send_data("MyDevice", 1000, 2000, 3000)  # -> "1000,2000,3000"
-         # tai
-         send_data("MyDevice", 1000, 2000)  # data+*values -> "1000,2000"
+    Käyttöesimerkkejä:
+      1) CSV-muotoinen arvoketju:
+         send_data("EventLogger", 1000, 2000, 3000)  # -> "1000,2000,3000"
+      2) Valmis dict:
+         send_data("EventLogger", {"type": "ALARM", "code": 123})
 
     Params:
-      device_name: laitteen tai datalähteen nimi
-      data: dict/str/num tai None
-      *values: lisäarvot CSV-käyttöön
-      sheet_name: Google Sheet -välilehti (oletus "EventLogger")
+      sheet_name: Google Sheet -välilehti
+      *values: arvot, jotka yhdistetään lähetettäväksi
       timeout: HTTP timeout sekunteina
     """
 
-    # Muodosta event-payload useilla tavoilla, mutta yhtenäiseen muotoon
-    if isinstance(data, dict):
-        event_payload: Dict[str, Any] = data
-    elif values:  # data + values tulkitaan CSV:ksi
-        items = ((data,) + values) if data is not None else values
-        csv_str = ",".join(str(v) for v in items)
-        event_payload = {"csv": csv_str}
+    if not values:
+        value_string = ""
+    elif len(values) == 1 and isinstance(values[0], dict):
+        value_string = json.dumps(values[0], ensure_ascii=False)
     else:
-        # yksittäinen raakateksti/numero tai tyhjä
-        event_payload = {"raw_payload": "" if data is None else str(data)}
-
-    # Leimaa mukaan laitteen nimi; GAS-päässä voi käyttää tätä sarakkeessa
-    event = {"device": device_name, **event_payload}
+        value_string = ",".join(str(v) for v in values)
 
     payload = {
         "sheet_name": sheet_name,
-        "command": "insert_event",
-        # Viedään arvot JSON-muodossa yhteen kenttään; GAS parsii sen
-        "values": json.dumps(event, ensure_ascii=False)
+        "values": value_string,
     }
 
     headers = {"Content-Type": "application/json"}
