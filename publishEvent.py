@@ -60,6 +60,7 @@ def send_data(device_name: str,
         print(f"Connecting to {URL}...")
         response = requests.post(URL, headers=headers, json=payload, timeout=timeout)
         if response.status_code == 200:
+            print(payload)
             print("Event data published successfully.")
             print("Response:", response.text)
         else:
