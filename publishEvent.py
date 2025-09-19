@@ -2,6 +2,8 @@ import json
 import requests
 from typing import Any
 
+from payload_logger import log_payload
+
 HOST = "https://script.google.com"
 # Valitse tähän se oikea oman Apps Script -julkaisusi ID:
 SCRIPT_ID = "AKfycbwzZCJKv3pyLBs3dSVUgYUYwQPKIS5atRKHsvxcFNSNJTDVg51MisQtZW0EGYmvTfzp6g"
@@ -36,6 +38,8 @@ def send_data(sheet_name: str,
         "values": value_string,
     }
 
+    log_payload("publishEvent", payload)
+
     headers = {"Content-Type": "application/json"}
 
     try:
@@ -45,8 +49,14 @@ def send_data(sheet_name: str,
             print(payload)
             print("Event data published successfully.")
             print("Response:", response.text)
+            log_payload("publishEvent", f"Success: {response.text}")
         else:
             print(f"Failed to publish event data. Status Code: {response.status_code}")
             print("Response:", response.text)
+            log_payload(
+                "publishEvent",
+                f"Failure {response.status_code}: {response.text}",
+            )
     except requests.exceptions.RequestException as exc:
         print(f"Connection failed: {exc}")
+        log_payload("publishEvent", f"Connection failed: {exc}")

@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import publishData
 import publishEvent
+from payload_logger import log_payload
 
 # Määrittele MQTT-palvelimen tiedot
 MQTT_BROKER = "192.168.1.51"  # MQTT-välittäjän IP-osoite
@@ -63,6 +64,7 @@ def on_message(client, userdata, msg):
 
         print(f"Payload: {payload}")
         print("-----------------------------")
+        log_payload("DataUpload_MQTT_Client", payload, context=msg.topic)
 
         topic_parts = [part for part in msg.topic.split('/') if part]
         if not topic_parts:
@@ -75,20 +77,37 @@ def on_message(client, userdata, msg):
             int_values = parse_payload(payload)
         except ValueError as err:
             print(f"Virhe: {err}")
+            log_payload("DataUpload_MQTT_Client", f"Virheellinen payload: {err}", context=msg.topic)
             return
 
         dataset_size = len(int_values)
         if dataset_size == 0 or dataset_size > 40:
             print(f"Virhe: Datasetin koko ({dataset_size}) ei ole hyväksyttävä: {payload}")
+            log_payload(
+                "DataUpload_MQTT_Client",
+                f"Datasetin koko {dataset_size} ei kelpaa",
+                context=msg.topic,
+            )
             return
 
         if base_topic == "Datalogger":
             publishData.send_data(DATA_SHEET_NAME, *int_values)
+            log_payload(
+                "DataUpload_MQTT_Client",
+                f"Välitettiin DataUploadiin {int_values}",
+                context=DATA_SHEET_NAME,
+            )
         elif base_topic == "EventLogger":
             sheet_name = topic_parts[1] if len(topic_parts) > 1 else EVENT_DEFAULT_SHEET
             publishEvent.send_data(sheet_name, *int_values)
+            log_payload(
+                "DataUpload_MQTT_Client",
+                f"Välitettiin EventLoggeriin {int_values}",
+                context=sheet_name,
+            )
         else:
             print(f"Tuntematon aihe: {msg.topic}")
+            log_payload("DataUpload_MQTT_Client", "Tuntematon aihe", context=msg.topic)
     except Exception as e:
         print(f"Virhe käsiteltäessä sanomaa: {e}")
 

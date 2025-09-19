@@ -11,6 +11,9 @@ function doPost(e) {
       return jsonOut({ ok: false, error: "no_postdata" });
     }
 
+    console.log("[EventLogger] Payload: " + e.postData.contents);
+    Logger.log("[EventLogger] Payload: %s", e.postData.contents);
+
     var parsed;
     try {
       parsed = JSON.parse(e.postData.contents);

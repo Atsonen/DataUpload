@@ -1,6 +1,8 @@
 import requests
 import json
 
+from payload_logger import log_payload
+
 # Vakioarvot
 HOST = "https://script.google.com"
 SCRIPT_ID = "AKfycbwnmiItP_1NRe0ER6dogBr29-qXEC97CUkgAK6nly3gn8IjlFxAE9FwUxA2ss0JaruFjA"  # Korvaa omalla Google Script ID:lläsi
@@ -20,6 +22,8 @@ def send_data(device_name, *values):
         "command": "insert_row"
     }
 
+    log_payload("publishData", payload)
+
     headers = {"Content-Type": "application/json"}
 
     try:
@@ -30,12 +34,18 @@ def send_data(device_name, *values):
         if response.status_code == 200:
             print("Data published successfully.")
             print("Response:", response.text)
+            log_payload("publishData", f"Success: {response.text}")
         else:
             print(f"Failed to publish data. Status Code: {response.status_code}")
             print("Response:", response.text)
+            log_payload(
+                "publishData",
+                f"Failure {response.status_code}: {response.text}",
+            )
 
     except requests.exceptions.RequestException as e:
         print(f"Connection failed: {e}")
+        log_payload("publishData", f"Connection failed: {e}")
 
 # Esimerkki kutsu
 # send_data("DataUpload2", 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000)
