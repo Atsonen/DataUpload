@@ -42,7 +42,7 @@ def parse_event_payload(payload: str) -> dict:
     if event_data:
         return event_data
 
-    return {"raw_payload": payload}
+    return {payload}
 
 
 # MQTT callbacks
