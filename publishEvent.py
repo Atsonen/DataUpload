@@ -2,7 +2,7 @@ import json
 import requests
 
 HOST = "https://script.google.com"
-SCRIPT_ID = "AKfycbwE9irQKciLv7vXbJRCyT9v5xXyQMYiqvaBr_3R7jfNsJg37hvKaSyco1EbP4BUu9Zn"
+SCRIPT_ID = "AKfycbwzZCJKv3pyLBs3dSVUgYUYwQPKIS5atRKHsvxcFNSNJTDVg51MisQtZW0EGYmvTfzp6g"
 URL = f"{HOST}/macros/s/{SCRIPT_ID}/exec"
 
 
@@ -15,7 +15,7 @@ def send_data(device_name: str, event_data):
     payload = {
         "sheet_name": device_name,
         "values": json.dumps(event_payload, ensure_ascii=False),
-        
+        "command": "insert_event",
     }
 
     headers = {"Content-Type": "application/json"}
