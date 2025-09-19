@@ -1,40 +1,69 @@
-import requests
 import json
+import requests
+from typing import Any, Dict, Optional
 
-# Vakioarvot
 HOST = "https://script.google.com"
-SCRIPT_ID = "AKfycbyMvbyVtql9r3sGCPpy96RIc9fCt1Ja4w-OK2nx9W9wkd0zEEl_LaORH8Sz2N-cx8x2"  # Korvaa omalla Google Script ID:lläsi
+# Valitse tähän se oikea oman Apps Script -julkaisusi ID:
+SCRIPT_ID = "AKfycbwzZCJKv3pyLBs3dSVUgYUYwQPKIS5atRKHsvxcFNSNJTDVg51MisQtZW0EGYmvTfzp6g"
 URL = f"{HOST}/macros/s/{SCRIPT_ID}/exec"
 
-def send_data(device_name, *values):
+def send_data(device_name: str,
+              data: Optional[Any] = None,
+              *values: Any,
+              sheet_name: str = "EventLogger",
+              timeout: int = 30) -> None:
     """
-    Lähettää datasetin HTTPS POST -pyynnöllä Google Apps Scriptille.
-    """
-    # Muodosta pilkulla eroteltu arvoketju
-    value_string = ",".join(str(value) for value in values)
+    Lähettää tapahtuman Google Apps Scriptille.
 
-    # Muodosta oikea JSON-rakenne
+    Käyttö:
+      1) Dict-eventti:
+         send_data("MyDevice", {"type": "ALARM", "code": 123, "msg": "Overheat"})
+      2) Raaka-arvo:
+         send_data("MyDevice", "some raw text")
+      3) Numerolista/CSV:
+         send_data("MyDevice", 1000, 2000, 3000)  # -> "1000,2000,3000"
+         # tai
+         send_data("MyDevice", 1000, 2000)  # data+*values -> "1000,2000"
+
+    Params:
+      device_name: laitteen tai datalähteen nimi
+      data: dict/str/num tai None
+      *values: lisäarvot CSV-käyttöön
+      sheet_name: Google Sheet -välilehti (oletus "EventLogger")
+      timeout: HTTP timeout sekunteina
+    """
+
+    # Muodosta event-payload useilla tavoilla, mutta yhtenäiseen muotoon
+    if isinstance(data, dict):
+        event_payload: Dict[str, Any] = data
+    elif values:  # data + values tulkitaan CSV:ksi
+        items = ((data,) + values) if data is not None else values
+        csv_str = ",".join(str(v) for v in items)
+        event_payload = {"csv": csv_str}
+    else:
+        # yksittäinen raakateksti/numero tai tyhjä
+        event_payload = {"raw_payload": "" if data is None else str(data)}
+
+    # Leimaa mukaan laitteen nimi; GAS-päässä voi käyttää tätä sarakkeessa
+    event = {"device": device_name, **event_payload}
+
     payload = {
-        "sheet_name": "EventLogger",
-        "values": value_string,
+        "sheet_name": sheet_name,
+        "command": "insert_event",
+        # Viedään arvot JSON-muodossa yhteen kenttään; GAS parsii sen
+        "values": json.dumps(event, ensure_ascii=False)
     }
 
     headers = {"Content-Type": "application/json"}
 
     try:
         print(f"Connecting to {URL}...")
-        response = requests.post(URL, headers=headers, json=payload, timeout=30)
-
-        # Tarkista vastaus
+        response = requests.post(URL, headers=headers, json=payload, timeout=timeout)
         if response.status_code == 200:
-            print("Data published successfully.")
+            print("Event data published successfully.")
             print("Response:", response.text)
         else:
-            print(f"Failed to publish data. Status Code: {response.status_code}")
+            print(f"Failed to publish event data. Status Code: {response.status_code}")
             print("Response:", response.text)
-
-    except requests.exceptions.RequestException as e:
-        print(f"Connection failed: {e}")
-
-# Esimerkki kutsu
-# send_data("DataUpload2", 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000)
+    except requests.exceptions.RequestException as exc:
+        print(f"Connection failed: {exc}")
