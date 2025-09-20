@@ -1,7 +1,29 @@
 import requests
-import json
+from typing import Sequence, Dict
 
 from payload_logger import log_payload
+
+
+def _build_status_fields(values: Sequence[int]) -> Dict[str, int]:
+    """Create a summary of key status fields from the payload values.
+
+    The caller sends the data as a positional sequence, so we pick the
+    interesting indices and fall back to ``0`` when the dataset is shorter
+    than expected.  The "Done" field now reflects the 10th value from the
+    payload (``values[9]``) instead of the previous fixed value.
+    """
+
+    normalized = list(values)
+
+    def pick(index: int) -> int:
+        return int(normalized[index]) if index < len(normalized) else 0
+
+    return {
+        "Done": pick(9),
+        "Spare1": pick(1),
+        "Spare2": pick(2),
+        "Status": pick(3),
+    }
 
 # Vakioarvot
 HOST = "https://script.google.com"
@@ -22,7 +44,8 @@ def send_data(device_name, *values):
         "command": "insert_row"
     }
 
-    log_payload("publishData", payload)
+    status_fields = _build_status_fields(values)
+    log_payload("publishData", {"payload": payload, "status_fields": status_fields})
 
     headers = {"Content-Type": "application/json"}
 
