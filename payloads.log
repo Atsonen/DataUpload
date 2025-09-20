@@ -914,3 +914,39 @@
 2025-09-20 11:05:44	INFO	publishEvent | Success: {"ok":true}
 2025-09-20 11:05:44	INFO	publishEvent | Failed to publish success ack: tuple index out of range
 2025-09-20 11:05:44	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
+2025-09-20 11:14:49	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,3,405,18,0,0,0,0,0,0}
+2025-09-20 11:14:49	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:14:49	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '0}' kentässä segment[9], käytetään 0
+2025-09-20 11:14:49	INFO	publishEvent | {'sheet_name': 'EventLogger', 'values': '0,3,405,18,0,0,0'}
+2025-09-20 11:14:54	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:14:54	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
+2025-09-20 11:14:54	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,3,405,18,0,0,0,0,0,0}
+2025-09-20 11:14:54	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:14:54	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '0}' kentässä segment[9], käytetään 0
+2025-09-20 11:14:54	INFO	publishEvent | {'sheet_name': 'EventLogger', 'values': '0,3,405,18,0,0,0'}
+2025-09-20 11:14:58	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:14:58	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
+2025-09-20 11:14:58	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,3,405,18,0,0,0,0,0,0}
+2025-09-20 11:14:58	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:14:58	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '0}' kentässä segment[9], käytetään 0
+2025-09-20 11:14:58	INFO	publishEvent | {'sheet_name': 'EventLogger', 'values': '0,3,405,18,0,0,0'}
+2025-09-20 11:15:17	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:15:17	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
+2025-09-20 11:15:17	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,3,405,18,0,0,0,0,0,0}
+2025-09-20 11:15:17	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:15:17	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '0}' kentässä segment[9], käytetään 0
+2025-09-20 11:15:17	INFO	publishEvent | {'sheet_name': 'EventLogger', 'values': '0,3,405,18,0,0,0'}
+2025-09-20 11:15:30	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:15:30	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
+2025-09-20 11:15:30	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,3,405,18,0,0,0,0,0,0}
+2025-09-20 11:15:30	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:15:30	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '0}' kentässä segment[9], käytetään 0
+2025-09-20 11:15:30	INFO	publishEvent | {'sheet_name': 'EventLogger', 'values': '0,3,405,18,0,0,0'}
+2025-09-20 11:15:34	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:15:34	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
+2025-09-20 11:15:34	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,3,405,18,0,0,0,0,0,0}
+2025-09-20 11:15:34	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:15:34	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '0}' kentässä segment[9], käytetään 0
+2025-09-20 11:15:34	INFO	publishEvent | {'sheet_name': 'EventLogger', 'values': '0,3,405,18,0,0,0'}
+2025-09-20 11:15:40	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:15:40	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
