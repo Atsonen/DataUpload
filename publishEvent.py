@@ -1,6 +1,8 @@
 import json
+from typing import Any, Dict, Sequence
+
+import paho.mqtt.client as mqtt
 import requests
-from typing import Any
 
 from payload_logger import log_payload
 
@@ -8,6 +10,74 @@ HOST = "https://script.google.com"
 # Valitse tähän se oikea oman Apps Script -julkaisusi ID:
 SCRIPT_ID = "AKfycbyjEthTZuGTR_fUB1KQ1X0mZiE_RSh5m5pn-CAE6IcsrORtlzJBDqEPte2JEDkV7-c_"
 URL = f"{HOST}/macros/s/{SCRIPT_ID}/exec"
+
+MQTT_BROKER = "192.168.1.51"
+MQTT_PORT = 1883
+MQTT_TOPIC = "Sensors/EventLogger"
+
+
+def _pick_int(values: Sequence[Any], index: int) -> int:
+    """Return an integer from ``values`` at ``index`` when possible."""
+
+    if index >= len(values):
+        return 0
+
+    value = values[index]
+    if isinstance(value, bool):
+        return int(value)
+
+    if isinstance(value, (int, float)):
+        return int(value)
+
+    text = str(value).strip()
+    if not text:
+        return 0
+
+    text = text.strip("{}[]()")
+    if not text:
+        return 0
+
+    try:
+        return int(text, 10)
+    except ValueError:
+        return 0
+
+
+def _build_status_fields(values: Sequence[Any]) -> Dict[str, int]:
+    """Create a summary payload for the MQTT acknowledgement message."""
+
+    return {
+        "Done": _pick_int(values, 9),
+        "Spare1": _pick_int(values, 1),
+        "Spare2": _pick_int(values, 2),
+        "Status": _pick_int(values, 3),
+    }
+
+
+def _publish_acknowledgement(message: Dict[str, int]) -> None:
+    """Publish an acknowledgement packet to the MQTT broker."""
+
+    client = mqtt.Client()
+    try:
+        client.connect(MQTT_BROKER, MQTT_PORT, 60)
+        client.loop_start()
+        payload = json.dumps(message, ensure_ascii=False)
+        info = client.publish(MQTT_TOPIC, payload, qos=1, retain=False)
+        info.wait_for_publish()
+        log_payload(
+            "publishEvent",
+            f"Published success ack to {MQTT_TOPIC}: {payload}",
+            context="mqtt_ack",
+        )
+    except Exception as exc:  # pylint: disable=broad-except
+        log_payload(
+            "publishEvent",
+            f"Failed to publish success ack to {MQTT_TOPIC}: {exc}",
+            context="mqtt_ack",
+        )
+    finally:
+        client.loop_stop()
+        client.disconnect()
 
 def send_data(sheet_name: str,
               *values: Any,
@@ -38,7 +108,13 @@ def send_data(sheet_name: str,
         "values": value_string,
     }
 
-    log_payload("publishEvent", payload)
+    status_fields = _build_status_fields(values)
+
+    log_payload(
+        "publishEvent",
+        {"payload": payload, "status_fields": status_fields},
+        context="send_data",
+    )
 
     headers = {"Content-Type": "application/json"}
 
@@ -50,6 +126,7 @@ def send_data(sheet_name: str,
             print("Event data published successfully.")
             print("Response:", response.text)
             log_payload("publishEvent", f"Success: {response.text}")
+            _publish_acknowledgement(status_fields)
         else:
             print(f"Failed to publish event data. Status Code: {response.status_code}")
             print("Response:", response.text)
