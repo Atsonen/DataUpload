@@ -32,7 +32,11 @@ def _pick_int(values: Sequence[Any], index: int) -> int:
     text = str(value).strip()
     if not text:
         return 0
-
+    # Poista ympäriltä mahdolliset aaltosulut/klammerit, jotta esim.
+    # "{4}" ja "4}" tulkitaan oikein numeroksi.
+    text = text.strip("{}[]()")
+    if not text:
+        return 0
     try:
         return int(text, 10)
     except ValueError:

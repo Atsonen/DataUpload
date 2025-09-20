@@ -36,6 +36,12 @@ def _coerce_to_int(value: Any, field_name: str) -> int:
     if not text:
         return 0
 
+    # Poista ympäriltä mahdolliset aaltosulut/klammerit, jotta esim.
+    # "{4}" ja "4}" tulkitaan oikein numeroksi.
+    text = text.strip("{}[]()")
+    if not text:
+        return 0
+
     try:
         return int(text, 10)
     except ValueError:
@@ -61,8 +67,6 @@ def _ensure_length(values: Iterable[int]) -> List[int]:
     normalized = list(values)
     if len(normalized) < EXPECTED_VALUE_COUNT:
         normalized.extend([0] * (EXPECTED_VALUE_COUNT - len(normalized)))
-    elif len(normalized) > EXPECTED_VALUE_COUNT:
-        normalized = normalized[:EXPECTED_VALUE_COUNT]
     return normalized
 
 
