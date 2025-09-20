@@ -950,3 +950,31 @@
 2025-09-20 11:15:34	INFO	publishEvent | {'sheet_name': 'EventLogger', 'values': '0,3,405,18,0,0,0'}
 2025-09-20 11:15:40	INFO	publishEvent | Success: {"ok":true}
 2025-09-20 11:15:40	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
+2025-09-20 11:25:51	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,1,405,18,0,0,0,0,0,0}
+2025-09-20 11:25:51	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:25:51	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '0}' kentässä segment[9], käytetään 0
+2025-09-20 11:25:51	INFO	publishEvent | send_data | {'payload': {'sheet_name': 'EventLogger', 'values': '0,1,405,18,0,0,0'}, 'status_fields': {'Done': 0, 'Spare1': 1, 'Spare2': 405, 'Status': 18}}
+2025-09-20 11:25:55	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:25:55	INFO	publishEvent | mqtt_ack | Published success ack to Sensors/EventLogger: {"Done": 0, "Spare1": 1, "Spare2": 405, "Status": 18}
+2025-09-20 11:25:56	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 1, 405, 18, 0, 0, 0]
+2025-09-20 11:26:19	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,3,405,18,0,0,0,0,0,0}
+2025-09-20 11:26:19	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:26:19	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '0}' kentässä segment[9], käytetään 0
+2025-09-20 11:26:19	INFO	publishEvent | send_data | {'payload': {'sheet_name': 'EventLogger', 'values': '0,3,405,18,0,0,0'}, 'status_fields': {'Done': 0, 'Spare1': 3, 'Spare2': 405, 'Status': 18}}
+2025-09-20 11:26:35	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:26:35	INFO	publishEvent | mqtt_ack | Published success ack to Sensors/EventLogger: {"Done": 0, "Spare1": 3, "Spare2": 405, "Status": 18}
+2025-09-20 11:26:36	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
+2025-09-20 11:29:19	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,1,405,18,0,0,0,0,0,2}
+2025-09-20 11:29:19	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:29:19	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '2}' kentässä segment[9], käytetään 0
+2025-09-20 11:29:19	INFO	publishEvent | send_data | {'payload': {'sheet_name': 'EventLogger', 'values': '0,1,405,18,0,0,0'}, 'status_fields': {'Done': 0, 'Spare1': 1, 'Spare2': 405, 'Status': 18}}
+2025-09-20 11:29:32	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:29:32	INFO	publishEvent | mqtt_ack | Published success ack to Sensors/EventLogger: {"Done": 0, "Spare1": 1, "Spare2": 405, "Status": 18}
+2025-09-20 11:29:33	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 1, 405, 18, 0, 0, 0]
+2025-09-20 11:29:36	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,1,405,18,0,0,0,0,0,4}
+2025-09-20 11:29:36	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:29:36	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '4}' kentässä segment[9], käytetään 0
+2025-09-20 11:29:36	INFO	publishEvent | send_data | {'payload': {'sheet_name': 'EventLogger', 'values': '0,1,405,18,0,0,0'}, 'status_fields': {'Done': 0, 'Spare1': 1, 'Spare2': 405, 'Status': 18}}
+2025-09-20 11:29:42	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:29:42	INFO	publishEvent | mqtt_ack | Published success ack to Sensors/EventLogger: {"Done": 0, "Spare1": 1, "Spare2": 405, "Status": 18}
+2025-09-20 11:29:43	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 1, 405, 18, 0, 0, 0]
