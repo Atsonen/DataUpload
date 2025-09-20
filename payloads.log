@@ -907,3 +907,10 @@
 2025-09-20 11:02:37	INFO	publishEvent | Success: {"ok":true}
 2025-09-20 11:02:37	INFO	publishEvent | Failed to publish success ack: tuple index out of range
 2025-09-20 11:02:37	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
+2025-09-20 11:05:38	INFO	EventLogger_MQTT_Client | EventLogger/EventLogger | {0,3,405,18,0,0,0,0,0,0}
+2025-09-20 11:05:38	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '{0' kentässä segment[0], käytetään 0
+2025-09-20 11:05:38	INFO	EventLogger_MQTT_Client | value_conversion | Ei-numeerinen arvo '0}' kentässä segment[9], käytetään 0
+2025-09-20 11:05:38	INFO	publishEvent | {'sheet_name': 'EventLogger', 'values': '0,3,405,18,0,0,0'}
+2025-09-20 11:05:44	INFO	publishEvent | Success: {"ok":true}
+2025-09-20 11:05:44	INFO	publishEvent | Failed to publish success ack: tuple index out of range
+2025-09-20 11:05:44	INFO	EventLogger_MQTT_Client | EventLogger | Forwarded values: [0, 3, 405, 18, 0, 0, 0]
